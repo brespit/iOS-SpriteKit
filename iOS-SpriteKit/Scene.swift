@@ -9,17 +9,30 @@
 import SpriteKit
 import ARKit
 
-class Scene: SKScene {
+class Scene: SKScene, SKPhysicsContactDelegate {
     
     var mosca = SKSpriteNode()
     var fondo = SKSpriteNode()
     var tubo1 = SKSpriteNode()
     var tubo2 = SKSpriteNode()
     var texturaMosca1 = SKTexture()
+    var labelPuntuacion = SKLabelNode()
+    var puntuacion = 0
+    
+    enum tipoNodo: UInt32 {
+        case mosca = 1
+        case tuboSuelo = 2
+        case espacioTubo = 4
+    }
 
     
     override func didMove(to view: SKView) {
+        
+        self.physicsWorld.contactDelegate = self
+        
         _ = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.anadirTubos), userInfo: nil, repeats: true)
+        anadirLabelPuntuacion()
+        
         anadirMosca()
 
         anadirFondo()
@@ -27,6 +40,7 @@ class Scene: SKScene {
         anadirSuelo()
         
         anadirTubos()
+        
         
     }
     
@@ -36,9 +50,6 @@ class Scene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        // Crear el cuerpo físico de la mosca como un círculo con un radio de mitad del height de la textura
-        mosca.physicsBody = SKPhysicsBody(circleOfRadius: texturaMosca1.size().height/2)
-        
         // Certificarse de que el cuerpo sea dinámico, que se mueva y interactue
         mosca.physicsBody?.isDynamic = true
         
@@ -46,9 +57,22 @@ class Scene: SKScene {
         mosca.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
         
         // aplicar un impulso cada vez que se pulse en la pantalla
-        mosca.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
+        mosca.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 50))
         
 
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        // identificar cuando se genera un contacto
+        let cuerpoA = contact.bodyA
+        let cuerpoB = contact.bodyB
+        
+        if (cuerpoA.categoryBitMask == tipoNodo.mosca.rawValue && cuerpoB.categoryBitMask == tipoNodo.espacioTubo.rawValue)
+        || (cuerpoA.categoryBitMask == tipoNodo.espacioTubo.rawValue && cuerpoB.categoryBitMask == tipoNodo.mosca.rawValue){
+            puntuacion += 1
+            labelPuntuacion.text = String(puntuacion)
+        }
+        
     }
     
     //MARK: Nodos
@@ -59,6 +83,9 @@ class Scene: SKScene {
         // con el ancho de la pantalla y solo 1px de alto, solo para hacer un límite
         suelo.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.width, height: 1))
         suelo.physicsBody?.isDynamic = false
+        suelo.physicsBody?.categoryBitMask = tipoNodo.tuboSuelo.rawValue
+        suelo.physicsBody?.collisionBitMask = tipoNodo.mosca.rawValue
+        suelo.physicsBody?.contactTestBitMask = tipoNodo.mosca.rawValue
         self.addChild(suelo)
     }
     
@@ -69,6 +96,12 @@ class Scene: SKScene {
         let animacionInfinita = SKAction.repeatForever(animacion)
         mosca = SKSpriteNode(texture: texturaMosca1)
         mosca.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        // Crear el cuerpo físico de la mosca como un círculo con un radio de mitad del height de la textura
+        mosca.physicsBody = SKPhysicsBody(circleOfRadius: texturaMosca1.size().height/2)
+        mosca.physicsBody?.isDynamic = false
+        mosca.physicsBody?.categoryBitMask = tipoNodo.mosca.rawValue
+        mosca.physicsBody?.collisionBitMask = tipoNodo.tuboSuelo.rawValue
+        mosca.physicsBody?.contactTestBitMask = tipoNodo.tuboSuelo.rawValue | tipoNodo.espacioTubo.rawValue
         mosca.run(animacionInfinita)
         self.addChild(mosca)
     }
@@ -112,6 +145,12 @@ class Scene: SKScene {
         tubo1 = SKSpriteNode(texture:texturaTubo1)
         tubo1.position = CGPoint(x:self.frame.midX + self.frame.width, y:self.frame.midY + texturaTubo1.size().height / 2 + dificultad + compensacionTubos)
         tubo1.zPosition = 0
+        tubo1.physicsBody = SKPhysicsBody(rectangleOf: texturaTubo1.size())
+        tubo1.physicsBody?.isDynamic = false
+        tubo1.physicsBody?.categoryBitMask = tipoNodo.tuboSuelo.rawValue
+        tubo1.physicsBody?.collisionBitMask = tipoNodo.mosca.rawValue
+        tubo1.physicsBody?.contactTestBitMask = tipoNodo.mosca.rawValue
+
         tubo1.run(moverRemoverTubos)
         self.addChild(tubo1)
         
@@ -119,8 +158,40 @@ class Scene: SKScene {
         tubo2 = SKSpriteNode(texture:texturaTubo2)
         tubo2.position = CGPoint(x:self.frame.midX + self.frame.width, y:self.frame.midY - texturaTubo2.size().height / 2 - dificultad + compensacionTubos)
         tubo2.zPosition = 0
+        tubo2.physicsBody = SKPhysicsBody(rectangleOf: texturaTubo2.size())
+        tubo2.physicsBody?.isDynamic = false
+        tubo2.physicsBody?.categoryBitMask = tipoNodo.tuboSuelo.rawValue
+        tubo2.physicsBody?.collisionBitMask = tipoNodo.mosca.rawValue
+        tubo2.physicsBody?.contactTestBitMask = tipoNodo.mosca.rawValue
+
         tubo2.run(moverRemoverTubos)
         self.addChild(tubo2)
         
+        //MARK: Espacios entre los tubos para poder puntuar
+        let espacio = SKSpriteNode()
+        let moverEspacio = SKAction.move(by: CGVector(dx: -3 * self.frame.width, dy:0), duration: TimeInterval(self.frame.width/80))
+        let removerEspacio = SKAction.removeFromParent()
+        let moverRemoverEspacio = SKAction.sequence([moverEspacio, removerEspacio])
+        let texturaTubo = SKTexture(imageNamed:"Tubo1.png")
+        
+        espacio.position = CGPoint(x: self.frame.midX + self.frame.width,y: self.frame.midY + compensacionTubos)
+        espacio.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: texturaTubo.size().width, height: dificultad))
+        espacio.physicsBody?.isDynamic = false
+        espacio.zPosition = 1
+        espacio.physicsBody?.categoryBitMask = tipoNodo.espacioTubo.rawValue
+        espacio.physicsBody?.collisionBitMask = 0
+        espacio.physicsBody?.contactTestBitMask = tipoNodo.mosca.rawValue
+        
+        espacio.run(moverRemoverEspacio)
+        self.addChild(espacio)
+
+    }
+    
+    func anadirLabelPuntuacion() {
+        labelPuntuacion.fontName = "Arial"
+        labelPuntuacion.fontSize = 80
+        labelPuntuacion.text = String(puntuacion)
+        labelPuntuacion.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 250)
+        self.addChild(labelPuntuacion)
     }
 }
