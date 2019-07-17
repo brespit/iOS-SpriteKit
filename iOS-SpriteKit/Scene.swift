@@ -18,6 +18,8 @@ class Scene: SKScene, SKPhysicsContactDelegate {
     var texturaMosca1 = SKTexture()
     var labelPuntuacion = SKLabelNode()
     var puntuacion = 0
+    var timer = Timer()
+    var gameOver = false
     
     enum tipoNodo: UInt32 {
         case mosca = 1
@@ -30,16 +32,7 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         
         self.physicsWorld.contactDelegate = self
         
-        _ = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.anadirTubos), userInfo: nil, repeats: true)
-        anadirLabelPuntuacion()
-        
-        anadirMosca()
-
-        anadirFondo()
-        
-        anadirSuelo()
-        
-        anadirTubos()
+        reiniciarJuego()
         
         
     }
@@ -49,15 +42,22 @@ class Scene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        // Certificarse de que el cuerpo sea dinámico, que se mueva y interactue
-        mosca.physicsBody?.isDynamic = true
-        
-        // Fijar la velocidad de movimento/caída
-        mosca.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-        
-        // aplicar un impulso cada vez que se pulse en la pantalla
-        mosca.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 50))
+        if(gameOver==false) {
+            // Certificarse de que el cuerpo sea dinámico, que se mueva y interactue
+            mosca.physicsBody?.isDynamic = true
+            
+            // Fijar la velocidad de movimento/caída
+            mosca.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            
+            // aplicar un impulso cada vez que se pulse en la pantalla
+            mosca.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 50))
+        } else {
+            gameOver = false
+            puntuacion = 0
+            self.speed = 1
+            self.removeAllChildren()
+            reiniciarJuego()
+        }
         
 
     }
@@ -71,6 +71,12 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         || (cuerpoA.categoryBitMask == tipoNodo.espacioTubo.rawValue && cuerpoB.categoryBitMask == tipoNodo.mosca.rawValue){
             puntuacion += 1
             labelPuntuacion.text = String(puntuacion)
+        } else {
+            gameOver = true
+            self.speed = 0
+            timer.invalidate()
+            labelPuntuacion.fontSize = 30
+            labelPuntuacion.text = "Game Over - "+String(puntuacion)+" puntos"
         }
         
     }
@@ -189,9 +195,23 @@ class Scene: SKScene, SKPhysicsContactDelegate {
     
     func anadirLabelPuntuacion() {
         labelPuntuacion.fontName = "Arial"
-        labelPuntuacion.fontSize = 80
+        labelPuntuacion.fontSize = 60
         labelPuntuacion.text = String(puntuacion)
         labelPuntuacion.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 250)
+        labelPuntuacion.zPosition = 5
         self.addChild(labelPuntuacion)
+    }
+    
+    func reiniciarJuego() {
+        timer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.anadirTubos), userInfo: nil, repeats: true)
+        anadirLabelPuntuacion()
+        
+        anadirMosca()
+        
+        anadirFondo()
+        
+        anadirSuelo()
+        
+        anadirTubos()
     }
 }
