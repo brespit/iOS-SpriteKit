@@ -11,8 +11,20 @@ import ARKit
 
 class Scene: SKScene {
     
+    var mosca = SKSpriteNode()
+    
     override func didMove(to view: SKView) {
         // Setup your scene here
+        let texturaMosca1 = SKTexture(imageNamed: "fly1.png")
+        let texturaMosca2 = SKTexture(imageNamed: "fly2.png")
+        
+        let animacion = SKAction.animate(with: [texturaMosca1, texturaMosca2], timePerFrame: 0.1)
+        let animacionInfinita = SKAction.repeatForever(animacion)
+        
+        mosca = SKSpriteNode(texture: texturaMosca1)
+        mosca.position = CGPoint(x: 0.0, y: 0.0)
+        mosca.run(animacionInfinita)
+        self.addChild(mosca)
     }
     
     override func update(_ currentTime: TimeInterval) {
