@@ -12,19 +12,42 @@ import ARKit
 class Scene: SKScene {
     
     var mosca = SKSpriteNode()
+    var fondo = SKSpriteNode()
     
     override func didMove(to view: SKView) {
-        // Setup your scene here
+
+        //MARK: Fondo
+        let texturaFondo = SKTexture(imageNamed: "fondo.png")
+        let movimientoFondo = SKAction.move(by: CGVector(dx: -texturaFondo.size().width, dy: 0), duration: 4.0)
+        let movimientoFondoOrigen = SKAction.move(by: CGVector(dx: texturaFondo.size().width, dy: 0), duration: 0)
+
+        let movimientoInfinitoFondo = SKAction.repeatForever(
+            SKAction.sequence([movimientoFondo, movimientoFondoOrigen])
+        )
+        
+        var i:CGFloat = 0
+        
+        while i < 2 {
+        
+            fondo = SKSpriteNode(texture: texturaFondo)
+            fondo.position = CGPoint(x: texturaFondo.size().width * i, y: self.frame.midY)
+            fondo.size.height = self.frame.height
+            fondo.zPosition = -1 // -1 para garantizar que siempre estará por detrás
+            fondo.run(movimientoInfinitoFondo)
+            self.addChild(fondo)
+            i += 1
+        }
+        //MARK: Mosca
         let texturaMosca1 = SKTexture(imageNamed: "fly1.png")
         let texturaMosca2 = SKTexture(imageNamed: "fly2.png")
-        
         let animacion = SKAction.animate(with: [texturaMosca1, texturaMosca2], timePerFrame: 0.1)
         let animacionInfinita = SKAction.repeatForever(animacion)
-        
         mosca = SKSpriteNode(texture: texturaMosca1)
-        mosca.position = CGPoint(x: 0.0, y: 0.0)
+        mosca.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         mosca.run(animacionInfinita)
         self.addChild(mosca)
+        
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
