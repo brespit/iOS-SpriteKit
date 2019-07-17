@@ -13,6 +13,8 @@ class Scene: SKScene {
     
     var mosca = SKSpriteNode()
     var fondo = SKSpriteNode()
+    var texturaMosca1 = SKTexture()
+
     
     override func didMove(to view: SKView) {
 
@@ -25,10 +27,8 @@ class Scene: SKScene {
             SKAction.sequence([movimientoFondo, movimientoFondoOrigen])
         )
         
-        var i:CGFloat = 0
-        
-        while i < 2 {
-        
+        var i:CGFloat = 0 // Tipo Float para poder multiplicar por el width de la textura
+        while i < 2 { // bucle creado para que se implemente una segunda imagen junto al final de la primera
             fondo = SKSpriteNode(texture: texturaFondo)
             fondo.position = CGPoint(x: texturaFondo.size().width * i, y: self.frame.midY)
             fondo.size.height = self.frame.height
@@ -37,8 +37,10 @@ class Scene: SKScene {
             self.addChild(fondo)
             i += 1
         }
+        
+        
         //MARK: Mosca
-        let texturaMosca1 = SKTexture(imageNamed: "fly1.png")
+        texturaMosca1 = SKTexture(imageNamed: "fly1.png")
         let texturaMosca2 = SKTexture(imageNamed: "fly2.png")
         let animacion = SKAction.animate(with: [texturaMosca1, texturaMosca2], timePerFrame: 0.1)
         let animacionInfinita = SKAction.repeatForever(animacion)
@@ -55,21 +57,19 @@ class Scene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let sceneView = self.view as? ARSKView else {
-            return
-        }
         
-        // Create anchor using the camera's current position
-        if let currentFrame = sceneView.session.currentFrame {
-            
-            // Create a transform with a translation of 0.2 meters in front of the camera
-            var translation = matrix_identity_float4x4
-            translation.columns.3.z = -0.2
-            let transform = simd_mul(currentFrame.camera.transform, translation)
-            
-            // Add a new anchor to the session
-            let anchor = ARAnchor(transform: transform)
-            sceneView.session.add(anchor: anchor)
-        }
+        // Crear el cuerpo físico de la mosca como un círculo con un radio de mitad del height de la textura
+        mosca.physicsBody = SKPhysicsBody(circleOfRadius: texturaMosca1.size().height/2)
+        
+        // Certificarse de que el cuerpo sea dinámico, que se mueva y interactue
+        mosca.physicsBody?.isDynamic = true
+        
+        // Fijar la velocidad de movimento/caída
+        mosca.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+        
+        // aplicar un impulso cada vez que se pulse en la pantalla
+        mosca.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
+        
+
     }
 }
