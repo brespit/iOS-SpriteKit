@@ -14,11 +14,11 @@
 		B02ECC4022DEF2B700289CE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC3E22DEF2B700289CE5 /* Main.storyboard */; };
 		B02ECC4222DEF2B900289CE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC4122DEF2B900289CE5 /* Assets.xcassets */; };
 		B02ECC4522DEF2B900289CE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC4322DEF2B900289CE5 /* LaunchScreen.storyboard */; };
-		B02ECC5122DEF77B00289CE5 /* Tubo2.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC4C22DEF77A00289CE5 /* Tubo2.png */; };
-		B02ECC5222DEF77B00289CE5 /* Tubo1.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC4D22DEF77B00289CE5 /* Tubo1.png */; };
-		B02ECC5322DEF77B00289CE5 /* fly2.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC4E22DEF77B00289CE5 /* fly2.png */; };
 		B02ECC5422DEF77B00289CE5 /* fondo.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC4F22DEF77B00289CE5 /* fondo.png */; };
-		B02ECC5522DEF77B00289CE5 /* fly1.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC5022DEF77B00289CE5 /* fly1.png */; };
+		B02ECC6622DF14D700289CE5 /* fly1.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC6222DF14D700289CE5 /* fly1.png */; };
+		B02ECC6722DF14D700289CE5 /* fly2.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC6322DF14D700289CE5 /* fly2.png */; };
+		B02ECC6822DF14D700289CE5 /* Tubo1.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC6422DF14D700289CE5 /* Tubo1.png */; };
+		B02ECC6922DF14D700289CE5 /* Tubo2.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC6522DF14D700289CE5 /* Tubo2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,11 +31,11 @@
 		B02ECC4122DEF2B900289CE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B02ECC4422DEF2B900289CE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B02ECC4622DEF2B900289CE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B02ECC4C22DEF77A00289CE5 /* Tubo2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tubo2.png; sourceTree = "<group>"; };
-		B02ECC4D22DEF77B00289CE5 /* Tubo1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tubo1.png; sourceTree = "<group>"; };
-		B02ECC4E22DEF77B00289CE5 /* fly2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fly2.png; sourceTree = "<group>"; };
 		B02ECC4F22DEF77B00289CE5 /* fondo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fondo.png; sourceTree = "<group>"; };
-		B02ECC5022DEF77B00289CE5 /* fly1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fly1.png; sourceTree = "<group>"; };
+		B02ECC6222DF14D700289CE5 /* fly1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fly1.png; sourceTree = "<group>"; };
+		B02ECC6322DF14D700289CE5 /* fly2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fly2.png; sourceTree = "<group>"; };
+		B02ECC6422DF14D700289CE5 /* Tubo1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tubo1.png; sourceTree = "<group>"; };
+		B02ECC6522DF14D700289CE5 /* Tubo2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tubo2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,11 +73,11 @@
 				B02ECC3A22DEF2B700289CE5 /* Scene.swift */,
 				B02ECC3C22DEF2B700289CE5 /* ViewController.swift */,
 				B02ECC3E22DEF2B700289CE5 /* Main.storyboard */,
-				B02ECC5022DEF77B00289CE5 /* fly1.png */,
-				B02ECC4E22DEF77B00289CE5 /* fly2.png */,
 				B02ECC4F22DEF77B00289CE5 /* fondo.png */,
-				B02ECC4D22DEF77B00289CE5 /* Tubo1.png */,
-				B02ECC4C22DEF77A00289CE5 /* Tubo2.png */,
+				B02ECC6222DF14D700289CE5 /* fly1.png */,
+				B02ECC6322DF14D700289CE5 /* fly2.png */,
+				B02ECC6422DF14D700289CE5 /* Tubo1.png */,
+				B02ECC6522DF14D700289CE5 /* Tubo2.png */,
 				B02ECC4122DEF2B900289CE5 /* Assets.xcassets */,
 				B02ECC4322DEF2B900289CE5 /* LaunchScreen.storyboard */,
 				B02ECC4622DEF2B900289CE5 /* Info.plist */,
@@ -145,13 +145,13 @@
 			files = (
 				B02ECC3922DEF2B700289CE5 /* Scene.sks in Resources */,
 				B02ECC4522DEF2B900289CE5 /* LaunchScreen.storyboard in Resources */,
-				B02ECC5522DEF77B00289CE5 /* fly1.png in Resources */,
 				B02ECC5422DEF77B00289CE5 /* fondo.png in Resources */,
 				B02ECC4222DEF2B900289CE5 /* Assets.xcassets in Resources */,
-				B02ECC5222DEF77B00289CE5 /* Tubo1.png in Resources */,
-				B02ECC5122DEF77B00289CE5 /* Tubo2.png in Resources */,
-				B02ECC5322DEF77B00289CE5 /* fly2.png in Resources */,
 				B02ECC4022DEF2B700289CE5 /* Main.storyboard in Resources */,
+				B02ECC6722DF14D700289CE5 /* fly2.png in Resources */,
+				B02ECC6922DF14D700289CE5 /* Tubo2.png in Resources */,
+				B02ECC6622DF14D700289CE5 /* fly1.png in Resources */,
+				B02ECC6822DF14D700289CE5 /* Tubo1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
