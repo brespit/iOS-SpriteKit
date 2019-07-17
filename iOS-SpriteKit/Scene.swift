@@ -31,7 +31,6 @@ class Scene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         self.physicsWorld.contactDelegate = self
-        
         reiniciarJuego()
         
         
@@ -43,23 +42,26 @@ class Scene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(gameOver==false) {
-            // Certificarse de que el cuerpo sea dinámico, que se mueva y interactue
             mosca.physicsBody?.isDynamic = true
-            
-            // Fijar la velocidad de movimento/caída
             mosca.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            
-            // aplicar un impulso cada vez que se pulse en la pantalla
-            mosca.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 50))
+            mosca.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 35))
         } else {
-            gameOver = false
-            puntuacion = 0
-            self.speed = 1
-            self.removeAllChildren()
-            reiniciarJuego()
+            
+            
+            let touch = touches.first
+            let positionInScene = touch!.location(in: self)
+            let touchedNode = self.atPoint(positionInScene)
+            
+            if let name = touchedNode.name {
+                if name == "btnRestart" {
+                    gameOver = false
+                    puntuacion = 0
+                    self.speed = 1
+                    self.removeAllChildren()
+                    reiniciarJuego()
+                }
+            }
         }
-        
-
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -72,6 +74,13 @@ class Scene: SKScene, SKPhysicsContactDelegate {
             puntuacion += 1
             labelPuntuacion.text = String(puntuacion)
         } else {
+            let botonRestart = SKSpriteNode(imageNamed: "restart.png")
+            botonRestart.name = "btnRestart"
+            botonRestart.size.height = 100
+            botonRestart.size.width = 100
+            botonRestart.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 50)
+            botonRestart.zPosition = 3
+            self.addChild(botonRestart)
             gameOver = true
             self.speed = 0
             timer.invalidate()
@@ -204,6 +213,7 @@ class Scene: SKScene, SKPhysicsContactDelegate {
     
     func reiniciarJuego() {
         timer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.anadirTubos), userInfo: nil, repeats: true)
+
         anadirLabelPuntuacion()
         
         anadirMosca()

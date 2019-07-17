@@ -19,7 +19,7 @@
 		B02ECC6722DF14D700289CE5 /* fly2.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC6322DF14D700289CE5 /* fly2.png */; };
 		B02ECC6822DF14D700289CE5 /* Tubo1.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC6422DF14D700289CE5 /* Tubo1.png */; };
 		B02ECC6922DF14D700289CE5 /* Tubo2.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC6522DF14D700289CE5 /* Tubo2.png */; };
-		B02ECC6E22DF3A9D00289CE5 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC6D22DF3A9D00289CE5 /* restart.png */; };
+		B02ECC7022DF3D6100289CE5 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = B02ECC6F22DF3D6000289CE5 /* restart.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +37,7 @@
 		B02ECC6322DF14D700289CE5 /* fly2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fly2.png; sourceTree = "<group>"; };
 		B02ECC6422DF14D700289CE5 /* Tubo1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tubo1.png; sourceTree = "<group>"; };
 		B02ECC6522DF14D700289CE5 /* Tubo2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tubo2.png; sourceTree = "<group>"; };
-		B02ECC6D22DF3A9D00289CE5 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
+		B02ECC6F22DF3D6000289CE5 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +80,7 @@
 				B02ECC6322DF14D700289CE5 /* fly2.png */,
 				B02ECC6422DF14D700289CE5 /* Tubo1.png */,
 				B02ECC6522DF14D700289CE5 /* Tubo2.png */,
-				B02ECC6D22DF3A9D00289CE5 /* restart.png */,
+				B02ECC6F22DF3D6000289CE5 /* restart.png */,
 				B02ECC4122DEF2B900289CE5 /* Assets.xcassets */,
 				B02ECC4322DEF2B900289CE5 /* LaunchScreen.storyboard */,
 				B02ECC4622DEF2B900289CE5 /* Info.plist */,
@@ -155,7 +155,7 @@
 				B02ECC6922DF14D700289CE5 /* Tubo2.png in Resources */,
 				B02ECC6622DF14D700289CE5 /* fly1.png in Resources */,
 				B02ECC6822DF14D700289CE5 /* Tubo1.png in Resources */,
-				B02ECC6E22DF3A9D00289CE5 /* restart.png in Resources */,
+				B02ECC7022DF3D6100289CE5 /* restart.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
