@@ -26,14 +26,10 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         case tuboSuelo = 2
         case espacioTubo = 4
     }
-
     
     override func didMove(to view: SKView) {
-        
         self.physicsWorld.contactDelegate = self
         reiniciarJuego()
-        
-        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -46,12 +42,9 @@ class Scene: SKScene, SKPhysicsContactDelegate {
             mosca.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             mosca.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 35))
         } else {
-            
-            
             let touch = touches.first
             let positionInScene = touch!.location(in: self)
             let touchedNode = self.atPoint(positionInScene)
-            
             if let name = touchedNode.name {
                 if name == "btnRestart" {
                     gameOver = false
@@ -68,7 +61,6 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         // identificar cuando se genera un contacto
         let cuerpoA = contact.bodyA
         let cuerpoB = contact.bodyB
-        
         if (cuerpoA.categoryBitMask == tipoNodo.mosca.rawValue && cuerpoB.categoryBitMask == tipoNodo.espacioTubo.rawValue)
         || (cuerpoA.categoryBitMask == tipoNodo.espacioTubo.rawValue && cuerpoB.categoryBitMask == tipoNodo.mosca.rawValue){
             puntuacion += 1
@@ -87,11 +79,9 @@ class Scene: SKScene, SKPhysicsContactDelegate {
             labelPuntuacion.fontSize = 30
             labelPuntuacion.text = "Game Over - "+String(puntuacion)+" puntos"
         }
-        
     }
     
     //MARK: Nodos
-    
     func anadirSuelo() {
         let suelo = SKNode()
         suelo.position = CGPoint(x: -self.frame.midX, y: -self.frame.height/2)
@@ -125,11 +115,9 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         let texturaFondo = SKTexture(imageNamed: "fondo.png")
         let movimientoFondo = SKAction.move(by: CGVector(dx: -texturaFondo.size().width, dy: 0), duration: 4.0)
         let movimientoFondoOrigen = SKAction.move(by: CGVector(dx: texturaFondo.size().width, dy: 0), duration: 0)
-        
         let movimientoInfinitoFondo = SKAction.repeatForever(
             SKAction.sequence([movimientoFondo, movimientoFondoOrigen])
         )
-        
         var i:CGFloat = 0 // Tipo Float para poder multiplicar por el width de la textura
         while i < 2 { // bucle creado para que se implemente una segunda imagen junto al final de la primera
             fondo = SKSpriteNode(texture: texturaFondo)
@@ -143,19 +131,13 @@ class Scene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func anadirTubos(){
-        
         let moverTubos = SKAction.move(by: CGVector(dx: -3 * self.frame.width, dy:0), duration: TimeInterval(self.frame.width/80))
-        
         let removerTubos = SKAction.removeFromParent()
-        
         let moverRemoverTubos = SKAction.sequence([moverTubos, removerTubos])
-        
         let dificultad = mosca.size.height * 3
-        
         // numero entre cero y la mitad del alto de la pantalla
         let cantidadMovimientoAleatorio = CGFloat(arc4random() % UInt32(self.frame.height/2))
         let compensacionTubos = cantidadMovimientoAleatorio - self.frame.height / 4
-        
         let texturaTubo1 = SKTexture(imageNamed:"Tubo1.png")
         tubo1 = SKSpriteNode(texture:texturaTubo1)
         tubo1.position = CGPoint(x:self.frame.midX + self.frame.width, y:self.frame.midY + texturaTubo1.size().height / 2 + dificultad + compensacionTubos)
@@ -165,10 +147,8 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         tubo1.physicsBody?.categoryBitMask = tipoNodo.tuboSuelo.rawValue
         tubo1.physicsBody?.collisionBitMask = tipoNodo.mosca.rawValue
         tubo1.physicsBody?.contactTestBitMask = tipoNodo.mosca.rawValue
-
         tubo1.run(moverRemoverTubos)
         self.addChild(tubo1)
-        
         let texturaTubo2 = SKTexture(imageNamed:"Tubo2.png")
         tubo2 = SKSpriteNode(texture:texturaTubo2)
         tubo2.position = CGPoint(x:self.frame.midX + self.frame.width, y:self.frame.midY - texturaTubo2.size().height / 2 - dificultad + compensacionTubos)
@@ -178,17 +158,14 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         tubo2.physicsBody?.categoryBitMask = tipoNodo.tuboSuelo.rawValue
         tubo2.physicsBody?.collisionBitMask = tipoNodo.mosca.rawValue
         tubo2.physicsBody?.contactTestBitMask = tipoNodo.mosca.rawValue
-
         tubo2.run(moverRemoverTubos)
         self.addChild(tubo2)
-        
         //MARK: Espacios entre los tubos para poder puntuar
         let espacio = SKSpriteNode()
         let moverEspacio = SKAction.move(by: CGVector(dx: -3 * self.frame.width, dy:0), duration: TimeInterval(self.frame.width/80))
         let removerEspacio = SKAction.removeFromParent()
         let moverRemoverEspacio = SKAction.sequence([moverEspacio, removerEspacio])
         let texturaTubo = SKTexture(imageNamed:"Tubo1.png")
-        
         espacio.position = CGPoint(x: self.frame.midX + self.frame.width,y: self.frame.midY + compensacionTubos)
         espacio.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: texturaTubo.size().width, height: dificultad))
         espacio.physicsBody?.isDynamic = false
@@ -196,10 +173,8 @@ class Scene: SKScene, SKPhysicsContactDelegate {
         espacio.physicsBody?.categoryBitMask = tipoNodo.espacioTubo.rawValue
         espacio.physicsBody?.collisionBitMask = 0
         espacio.physicsBody?.contactTestBitMask = tipoNodo.mosca.rawValue
-        
         espacio.run(moverRemoverEspacio)
         self.addChild(espacio)
-
     }
     
     func anadirLabelPuntuacion() {
@@ -213,15 +188,10 @@ class Scene: SKScene, SKPhysicsContactDelegate {
     
     func reiniciarJuego() {
         timer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.anadirTubos), userInfo: nil, repeats: true)
-
         anadirLabelPuntuacion()
-        
         anadirMosca()
-        
         anadirFondo()
-        
         anadirSuelo()
-        
         anadirTubos()
     }
 }
